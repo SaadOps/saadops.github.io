@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Afsha 🤍</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Serif+Display:ital@0;1&family=Figtree:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6ee;
+    --blush: #f2d4c8;
+    --rose: #c9837a;
+    --deep: #6b3a3a;
+    --gold: #c8a97e;
+    --text: #3a2020;
+    --soft: #e8c5bb;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='18' font-size='18'%3E🤍%3C/text%3E%3C/svg%3E") 12 12, auto;
+  }
+
+  /* ── FLOATING PETALS ── */
+  .petals-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .petal {
+    position: absolute; top: -40px;
+    font-size: 1.2rem; opacity: 0.5;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-40px) rotate(0deg) translateX(0); opacity: 0.6; }
+    100% { transform: translateY(110vh) rotate(360deg) translateX(60px); opacity: 0; }
+  }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 2rem;
+    z-index: 1;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, #fce8e0 0%, #fdf6ee 70%);
+    z-index: -1;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.72rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--rose);
+    opacity: 0; animation: fadeUp 1s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    line-height: 0.95; color: var(--deep);
+    margin: 0.3em 0 0.2em;
+    opacity: 0; animation: fadeUp 1s 0.6s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic; color: var(--rose);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    font-style: italic; color: var(--gold);
+    max-width: 500px; line-height: 1.6;
+    opacity: 0; animation: fadeUp 1s 0.9s forwards;
+  }
+
+  .scroll-hint {
+    margin-top: 3rem;
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--rose);
+    opacity: 0; animation: fadeUp 1s 1.4s forwards;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .scroll-arrow { animation: bounce 1.5s infinite; }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 2rem; justify-content: center;
+  }
+  .divider-line {
+    flex: 1; max-width: 120px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--soft));
+  }
+  .divider-line.right {
+    background: linear-gradient(90deg, var(--soft), transparent);
+  }
+
+  /* ── PHOTO GALLERY ── */
+  #photos {
+    position: relative; z-index: 1;
+    padding: 4rem 2rem; max-width: 1100px; margin: 0 auto;
+  }
+
+  .section-label {
+    text-align: center; margin-bottom: 3rem;
+  }
+  .section-label h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--deep);
+  }
+  .section-label p {
+    font-style: italic; color: var(--gold);
+    font-size: 1.05rem; margin-top: 0.5rem;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .photo-card {
+    position: relative; overflow: hidden;
+    border-radius: 4px;
+    background: var(--blush);
+    aspect-ratio: 3/4;
+    cursor: pointer;
+    transform: rotate(var(--rot));
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 4px 6px 20px rgba(107,58,58,0.1);
+  }
+  .photo-card:hover {
+    transform: rotate(0deg) scale(1.03);
+    box-shadow: 8px 12px 40px rgba(107,58,58,0.2);
+    z-index: 2;
+  }
+
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1rem; padding: 1.5rem; text-align: center;
+    background: linear-gradient(135deg, var(--blush), var(--soft));
+  }
+  .photo-placeholder .icon { font-size: 2.5rem; }
+  .photo-placeholder .slot-label {
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.72rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--rose);
+  }
+  .photo-placeholder .caption {
+    font-style: italic; color: var(--deep);
+    font-size: 0.95rem; line-height: 1.4;
+  }
+
+  .photo-card img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+
+  /* upload overlay */
+  .upload-overlay {
+    position: absolute; inset: 0;
+    background: rgba(253,246,238,0.92);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.75rem; opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .photo-card:hover .upload-overlay { opacity: 1; }
+  .upload-btn {
+    background: var(--rose); color: white;
+    border: none; padding: 0.5rem 1.2rem;
+    border-radius: 999px; font-family: 'Figtree', sans-serif;
+    font-size: 0.78rem; letter-spacing: 0.1em;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .upload-btn:hover { background: var(--deep); }
+  .upload-input { display: none; }
+
+  /* ── VOICE PLAYER ── */
+  #voice {
+    position: relative; z-index: 1;
+    padding: 5rem 2rem; text-align: center;
+    background: linear-gradient(180deg, var(--cream) 0%, #fce8e0 50%, var(--cream) 100%);
+  }
+
+  .player-card {
+    max-width: 480px; margin: 2rem auto 0;
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 60px rgba(107,58,58,0.12);
+    position: relative; overflow: hidden;
+  }
+  .player-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--blush), var(--rose), var(--gold));
+  }
+
+  .waveform {
+    display: flex; align-items: center;
+    justify-content: center; gap: 3px;
+    height: 50px; margin: 1rem 0;
+  }
+  .wave-bar {
+    width: 3px; background: var(--soft);
+    border-radius: 99px;
+    transition: background 0.3s;
+    animation: wave-idle 1.5s ease-in-out infinite;
+  }
+  .wave-bar.active { background: var(--rose); }
+  @keyframes wave-idle {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.6); }
+  }
+
+  .player-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem; color: var(--deep); margin-bottom: 0.25rem;
+  }
+  .player-sub {
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.75rem; color: var(--gold);
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+
+  .play-btn {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    margin: 1.2rem auto; font-size: 1.4rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 24px rgba(107,58,58,0.3);
+  }
+  .play-btn:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(107,58,58,0.4); }
+
+  .voice-upload-area {
+    margin-top: 1.5rem; padding: 1rem;
+    border: 1.5px dashed var(--soft); border-radius: 12px;
+    cursor: pointer; transition: border-color 0.2s;
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.78rem; color: var(--rose);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .voice-upload-area:hover { border-color: var(--rose); }
+  #voice-input { display: none; }
+
+  /* ── MESSAGE SECTION ── */
+  #message {
+    position: relative; z-index: 1;
+    padding: 6rem 2rem; text-align: center;
+  }
+
+  .message-wrap {
+    max-width: 640px; margin: 0 auto;
+    position: relative;
+  }
+
+  .quote-mark {
+    font-family: 'DM Serif Display', serif;
+    font-size: 8rem; color: var(--blush);
+    line-height: 0; position: absolute;
+    top: -1rem; left: -2rem;
+    pointer-events: none;
+  }
+
+  .message-text {
+    font-size: clamp(1.3rem, 3vw, 1.75rem);
+    line-height: 1.7; font-style: italic;
+    color: var(--deep); position: relative;
+    z-index: 1;
+  }
+
+  .message-text strong {
+    color: var(--rose); font-style: normal;
+    font-weight: 400;
+  }
+
+  .message-sign {
+    margin-top: 2rem;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem; color: var(--gold);
+  }
+
+  /* ── HEART UNLOCK ── */
+  #unlock {
+    position: relative; z-index: 1;
+    padding: 5rem 2rem; text-align: center;
+  }
+
+  .lock-hint {
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.75rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--rose);
+    margin-bottom: 1.5rem;
+  }
+
+  .heart-btn {
+    background: none; border: none;
+    font-size: 4rem; cursor: pointer;
+    transition: transform 0.3s;
+    animation: heartbeat 2s infinite;
+    display: block; margin: 0 auto;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.12); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.08); }
+  }
+  .heart-btn:hover { transform: scale(1.2) !important; animation: none; }
+
+  .secret-msg {
+    max-width: 500px; margin: 2rem auto 0;
+    background: white; border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 50px rgba(107,58,58,0.12);
+    display: none; opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s, transform 0.6s;
+    font-size: 1.15rem; line-height: 1.8;
+    font-style: italic; color: var(--deep);
+  }
+  .secret-msg.revealed {
+    display: block;
+  }
+  .secret-msg.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center; padding: 3rem 2rem;
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.75rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+  }
+  footer span { color: var(--rose); }
+
+  /* ── LIGHTBOX ── */
+  #lightbox {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(30,10,10,0.9);
+    display: none; align-items: center; justify-content: center;
+    padding: 2rem;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: 90vw; max-height: 85vh;
+    border-radius: 4px; object-fit: contain;
+  }
+  #lightbox-close {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: none; border: none; color: white;
+    font-size: 2rem; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- floating petals -->
+<div class="petals-container" id="petals"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <p class="hero-eyebrow">A little world built just for</p>
+  <h1 class="hero-title">
+    Afsha
+    <em>🤍</em>
+  </h1>
+  <p class="hero-subtitle">
+    Because your smile is the most beautiful thing in the world,
+    and you deserve a whole universe of love.
+  </p>
+  <div class="scroll-hint">
+    <span>scroll down</span>
+    <span class="scroll-arrow">↓</span>
+  </div>
+</section>
+
+<!-- PHOTOS -->
+<section id="photos">
+  <div class="section-label">
+    <h2>Our Moments</h2>
+    <p>every photo, a memory I keep in my heart</p>
+  </div>
+
+  <div class="photo-grid" id="photo-grid">
+    <!-- Cards generated by JS -->
+  </div>
+</section>
+
+<div class="divider">
+  <div class="divider-line"></div>
+  <span>🌸</span>
+  <div class="divider-line right"></div>
+</div>
+
+<!-- VOICE -->
+<section id="voice">
+  <div class="section-label">
+    <h2>Your Voice</h2>
+    <p>the song I never want to stop hearing</p>
+  </div>
+
+  <div class="player-card">
+    <p class="player-name">Afsha sings 🎶</p>
+    <p class="player-sub">My favourite sound in the world</p>
+
+    <div class="waveform" id="waveform"></div>
+
+    <button class="play-btn" id="play-btn" title="Play">▶</button>
+
+    <audio id="audio-player"></audio>
+
+    <div class="voice-upload-area" id="voice-upload-area">
+      🎤 Click to add her voice note
+    </div>
+    <input type="file" id="voice-input" accept="audio/*">
+  </div>
+</section>
+
+<div class="divider">
+  <div class="divider-line"></div>
+  <span>🌸</span>
+  <div class="divider-line right"></div>
+</div>
+
+<!-- MESSAGE -->
+<section id="message">
+  <div class="message-wrap">
+    <span class="quote-mark">"</span>
+    <p class="message-text">
+      This smile of yours is what I wanna <strong>live for.</strong><br>
+      I wanna see you like that always —<br>
+      and I hope I'll keep you like that always. 🥰<br><br>
+      It melts me, <em>always.</em><br>
+      And I love your smile the most,<br>
+      and <strong>you</strong> also the most.
+    </p>
+    <p class="message-sign">— forever yours 🤍</p>
+  </div>
+</section>
+
+<!-- UNLOCK -->
+<section id="unlock">
+  <p class="lock-hint">tap the heart for a secret 🤫</p>
+  <button class="heart-btn" id="heart-btn">🩷</button>
+  <div class="secret-msg" id="secret-msg">
+    You walked into my life and made it the most beautiful story.<br><br>
+    Every laugh, every quiet moment, every smile you've shared with me —
+    I treasure each one more than you know. 🌸<br><br>
+    Thank you for being exactly who you are.
+    <br><br><strong style="font-style:normal; color: var(--rose);">I love you, Afsha. 🤍</strong>
+  </div>
+</section>
+
+<footer>
+  Made with every bit of love 🩷 just for <span>Afsha</span>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+// ── PETALS ──
+const petalEmojis = ['🌸','🌺','🌷','✨','🤍'];
+const container = document.getElementById('petals');
+for (let i = 0; i < 20; i++) {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+  p.style.left = Math.random() * 100 + 'vw';
+  p.style.animationDuration = (8 + Math.random() * 12) + 's';
+  p.style.animationDelay = (Math.random() * 15) + 's';
+  p.style.fontSize = (0.8 + Math.random() * 0.8) + 'rem';
+  container.appendChild(p);
+}
+
+// ── WAVEFORM ──
+const wf = document.getElementById('waveform');
+const heights = [20,35,50,40,60,30,55,45,25,65,38,50,30,42,58,36,48,22,60,40,28,52,44,35,55];
+heights.forEach((h, i) => {
+  const bar = document.createElement('div');
+  bar.className = 'wave-bar';
+  bar.style.height = h + 'px';
+  bar.style.animationDelay = (i * 0.06) + 's';
+  wf.appendChild(bar);
+});
+
+// ── PHOTO GRID ──
+const captions = [
+  "the moment I knew 🤍",
+  "my favourite day with you",
+  "this smile 🥹",
+  "just us, always",
+  "you & me",
+  "the best kind of ordinary"
+];
+const rots = ['--rot:-1.5deg','--rot:1deg','--rot:-0.8deg','--rot:2deg','--rot:-1.2deg','--rot:0.5deg'];
+const grid = document.getElementById('photo-grid');
+const photoData = new Array(6).fill(null);
+
+captions.forEach((cap, i) => {
+  const card = document.createElement('div');
+  card.className = 'photo-card';
+  card.setAttribute('style', rots[i]);
+  card.dataset.index = i;
+
+  card.innerHTML = `
+    <div class="photo-placeholder">
+      <span class="icon">📷</span>
+      <span class="slot-label">photo ${i+1}</span>
+      <span class="caption">${cap}</span>
+    </div>
+    <div class="upload-overlay">
+      <span style="font-size:1.3rem">📎</span>
+      <button class="upload-btn">Add Photo</button>
+    </div>
+    <input type="file" class="upload-input" accept="image/*">
+  `;
+
+  const btn = card.querySelector('.upload-btn');
+  const input = card.querySelector('.upload-input');
+
+  btn.addEventListener('click', (e) => { e.stopPropagation(); input.click(); });
+  input.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    photoData[i] = { url, caption: cap };
+    card.querySelector('.photo-placeholder').style.display = 'none';
+    card.querySelector('.upload-overlay').style.opacity = '0';
+    let img = card.querySelector('img');
+    if (!img) { img = document.createElement('img'); card.insertBefore(img, card.querySelector('.upload-overlay')); }
+    img.src = url;
+    img.alt = cap;
+    card.addEventListener('click', () => openLightbox(url));
+  });
+
+  grid.appendChild(card);
+});
+
+// ── LIGHTBOX ──
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lightbox-img');
+function openLightbox(src) { lbImg.src = src; lightbox.classList.add('open'); }
+document.getElementById('lightbox-close').addEventListener('click', () => lightbox.classList.remove('open'));
+lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+
+// ── VOICE PLAYER ──
+const audio = document.getElementById('audio-player');
+const playBtn = document.getElementById('play-btn');
+const voiceInput = document.getElementById('voice-input');
+const voiceArea = document.getElementById('voice-upload-area');
+const bars = document.querySelectorAll('.wave-bar');
+
+let isPlaying = false;
+
+voiceArea.addEventListener('click', () => voiceInput.click());
+voiceInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  audio.src = URL.createObjectURL(file);
+  voiceArea.textContent = '✅ Voice note added! Press play 🎶';
+  voiceArea.style.borderColor = 'var(--rose)';
+});
+
+playBtn.addEventListener('click', () => {
+  if (!audio.src) { voiceArea.style.borderColor = 'var(--rose)'; voiceArea.textContent = '👆 Add her voice note first!'; return; }
+  if (isPlaying) { audio.pause(); playBtn.textContent = '▶'; bars.forEach(b => b.classList.remove('active')); isPlaying = false; }
+  else { audio.play(); playBtn.textContent = '⏸'; bars.forEach(b => b.classList.add('active')); isPlaying = true; }
+});
+
+audio.addEventListener('ended', () => { playBtn.textContent = '▶'; bars.forEach(b => b.classList.remove('active')); isPlaying = false; });
+
+// ── HEART UNLOCK ──
+const heartBtn = document.getElementById('heart-btn');
+const secretMsg = document.getElementById('secret-msg');
+let unlocked = false;
+heartBtn.addEventListener('click', () => {
+  if (unlocked) return;
+  unlocked = true;
+  heartBtn.textContent = '❤️';
+  heartBtn.style.animation = 'none';
+  heartBtn.style.transform = 'scale(1.3)';
+  secretMsg.classList.add('revealed');
+  setTimeout(() => secretMsg.classList.add('visible'), 50);
+});
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'translateY(0)'; } });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('#photos, #voice .player-card, #message .message-wrap').forEach(el => {
+  el.style.opacity = 0; el.style.transform = 'translateY(30px)';
+  el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
